@@ -1,0 +1,32 @@
+{
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+    "hardcore",
+    "hardcore/node"
+	],
+	"parserOptions": {
+		"ecmaVersion": 2022,
+		"sourceType": "module"
+	},
+  "rules": {
+    "padding-line-between-statements": "off",
+    "n/no-process-env": "off",
+    "n/no-sync": "off",
+    "import/no-namespace": "off",
+    "sonar/no-wildcard-import": "off",
+    "unicorn/no-null": "off",
+    "no-magic-numbers": "off",
+    "camelcase": "off",
+    "arrow-body-style": "off",
+    "no-console": "off",
+    "prefer-destructuring": [
+      "error",
+      { "array": true, "object": true },
+      { "enforceForRenamedProperties": false }
+    ]
+  }
+}
