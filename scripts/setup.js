@@ -2,9 +2,9 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
 import {
+  filmsFolderPath,
   logFilePath,
   projectFolderPath,
-  resultsFolderPath,
   storageFilePath
 } from "../src/path.js";
 
@@ -21,7 +21,7 @@ function mkdirIfNotExist(fodlerPath) {
 
 
 mkdirIfNotExist(projectFolderPath)
-mkdirIfNotExist(resultsFolderPath)
+mkdirIfNotExist(filmsFolderPath)
 
 if (!existsSync(storageFilePath)) {
   mkdirIfNotExist(dirname(storageFilePath))

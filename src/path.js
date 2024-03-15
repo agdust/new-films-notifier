@@ -10,6 +10,6 @@ if (!process.env.PROJECT_FOLDER) {
 }
 
 export const projectFolderPath = process.env.PROJECT_FOLDER;
-export const resultsFolderPath = join(projectFolderPath, "results")
+export const filmsFolderPath = join(projectFolderPath, "films")
 export const storageFilePath = join(projectFolderPath, "storage.json")
 export const logFilePath = join(projectFolderPath, "new-films-notifier.log")
