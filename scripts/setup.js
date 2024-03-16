@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
+import { logger } from "../src/log.js";
 import {
   filmsFolderPath,
   logFilePath,
@@ -31,3 +32,5 @@ if (!existsSync(storageFilePath)) {
 if (!existsSync(logFilePath)) {
   writeFileSync(logFilePath, "", "utf8");
 }
+
+logger.info("setup is finished");

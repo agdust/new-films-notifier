@@ -31,14 +31,21 @@ if (newFilms.length === 0) {
   throw new Error("No new films today")
 }
 
+logger.info(`${Object.keys(currentFilms).length} films today in total`)
+logger.info(`${newFilms.length} new films`)
+
 function buildTelegramMessage(film) {
+  // use telegram's built-in preview, so it's enough
+  // to just pass url to image
   return `${film.name}\n\n${film.imageUrl}\n\n${film.url}`
 }
 
 const messagePromises = [];
+const usersArray = Object.values(storage.users);
 
-for (const user of Object.values(storage.users)) {
-  for (const film of newFilms) {
+for (const film of newFilms) {
+  logger.info(`send notification about new film: "${film}"`)
+  for (const user of usersArray) {
     messagePromises.push(
       sendMessage(user, buildTelegramMessage(film))
     )
@@ -46,6 +53,8 @@ for (const user of Object.values(storage.users)) {
 }
 
 await Promise.all(messagePromises);
+
+logger.info(`sent notification to ${usersArray.length} users`)
 
 // -----------------------
 

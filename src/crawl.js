@@ -25,6 +25,9 @@ export async function crawlCurrentFilms() {
         if (!await loadMoreButton.isVisible()) { return; }
 
         await loadMoreButton.click();
+
+        // it's too hard to track finishing of load-more button loading,
+        // so just waiting
         await page.waitForTimeout(timeOfLoadWaiting);
         await loadMore();
       }
@@ -43,5 +46,3 @@ export async function crawlCurrentFilms() {
 
   return result;
 }
-
-

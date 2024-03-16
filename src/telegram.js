@@ -34,7 +34,7 @@ function addUsersFromUpdateBatch(lastUpdates) {
     .forEach((newUser) => {
       if (newUser.id in storage.users) { return; }
       storage.users[newUser.id] = newUser;
-      logger.info(`New User. ${newUser.id} @${newUser.username}`);
+      logger.info(`new user — ${newUser.id} @${newUser.username}`);
     })
 }
 
@@ -49,6 +49,8 @@ export async function handleAllNewUpdates() {
   let { lastHandledTelegramUpdateId } = storage;
 
   for (; ;) {
+    // this is endless loading sequential loop, it's okay
+    //
     // eslint-disable-next-line no-await-in-loop
     const lastUpdates = await getUpdates(lastHandledTelegramUpdateId);
     if (!lastUpdates) { break; }
@@ -62,9 +64,8 @@ export async function handleAllNewUpdates() {
     }
   }
 
+  // updating is safe because of await inide loop
+  //
   // eslint-disable-next-line require-atomic-updates
   storage.lastHandledTelegramUpdateId = lastHandledTelegramUpdateId;
 }
-
-
-
