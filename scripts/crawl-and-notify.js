@@ -49,4 +49,4 @@ await Promise.all(messagePromises);
 
 // -----------------------
 
-logger.info("-- Finish add-new-users -- ᕦ( ͡° ͜ʖ ͡°)ᕤ")
+logger.info("-- Finish crawl-and-notify -- ᕦ( ͡° ͜ʖ ͡°)ᕤ")
