@@ -1,7 +1,7 @@
 import { crawlCurrentFilms } from "../src/crawl.js"
 import { logger } from "../src/log.js";
 import { getLastSavedFilms, saveFilmsToFile, storage } from "../src/storage.js";
-import { sendMessage } from "../src/telegram.js"
+import { buildTelegramNotifyMessage, sendMessage } from "../src/telegram.js"
 
 logger.info("-- Start crawl-and-notify --")
 
@@ -34,12 +34,6 @@ if (newFilms.length === 0) {
 logger.info(`${Object.keys(currentFilms).length} films today in total`)
 logger.info(`${newFilms.length} new films`)
 
-function buildTelegramMessage(film) {
-  // use telegram's built-in preview, so it's enough
-  // to just pass url to image
-  return `${film.name}\n\n${film.imageUrl}\n\n${film.url}`
-}
-
 const messagePromises = [];
 const usersArray = Object.values(storage.users);
 
@@ -47,7 +41,7 @@ for (const film of newFilms) {
   logger.info(`send notification about new film: "${film}"`)
   for (const user of usersArray) {
     messagePromises.push(
-      sendMessage(user, buildTelegramMessage(film))
+      sendMessage(user, buildTelegramNotifyMessage(film))
     )
   }
 }

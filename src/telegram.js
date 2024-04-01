@@ -41,6 +41,7 @@ function addUsersFromUpdateBatch(lastUpdates) {
 export function sendMessage(user, text) {
   return fetch(buildApiUrl("sendMessage", {
     chat_id: user.id,
+    parse_mode: "MarkdownV2",
     text,
   }));
 }
@@ -68,4 +69,12 @@ export async function handleAllNewUpdates() {
   //
   // eslint-disable-next-line require-atomic-updates
   storage.lastHandledTelegramUpdateId = lastHandledTelegramUpdateId;
+}
+
+export function buildTelegramNotifyMessage(film) {
+  // use telegram's built-in preview to display posters,
+  // so it's enough to just pass image url with zero-width-space character
+
+  // eslint-disable-next-line no-irregular-whitespace
+  return `[​](${film.imageUrl}) [🍿 *${film.name}*](${film.url})`
 }
