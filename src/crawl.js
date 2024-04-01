@@ -3,12 +3,17 @@ import { PlaywrightCrawler } from "crawlee";
 const timeOfLoadWaiting = 5000; // 5 seconds
 
 async function exrtactFilmInformation(film) {
-  const img = await film.locator(".afisha-event-img-container img").first();
+  const image = await film.locator(".afisha-event-img-container img").first();
   const link = await film.locator("a").first();
-  const name = await img.getAttribute("alt");
+  const name = await image.getAttribute("alt");
+  let imageUrl = await image.getAttribute("src");
+
+  if (imageUrl[0] === "/") {
+    imageUrl = `https://zaotdih.ru/${imageUrl}`;
+  }
 
   return {
-    imageUrl: await img.getAttribute("src"),
+    imageUrl,
     name,
     url: `https://zaotdih.ru${await link.getAttribute("href")}`,
   };
@@ -26,8 +31,8 @@ export async function crawlCurrentFilms() {
 
         await loadMoreButton.click();
 
-        // it's too hard to track finishing of load-more button loading,
-        // so just waiting
+        // it's too tricky to track finishing of load-more button
+        // loading on this site, so just waiting
         await page.waitForTimeout(timeOfLoadWaiting);
         await loadMore();
       }
@@ -35,7 +40,6 @@ export async function crawlCurrentFilms() {
       await loadMore();
 
       const filmLocators = await page.locator("#afisha_container > .row > .col-12").all()
-
       const films = await Promise.all(filmLocators.map((filmLocator) => exrtactFilmInformation(filmLocator)))
 
       films.forEach((film) => { result[film.name] = film })
