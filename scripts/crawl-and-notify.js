@@ -38,7 +38,7 @@ const messagePromises = [];
 const usersArray = Object.values(storage.users);
 
 for (const film of newFilms) {
-  logger.info(`send notification about new film: "${film}"`)
+  logger.info(`send notification about new film: "${film.name}"`)
   for (const user of usersArray) {
     messagePromises.push(
       sendMessage(user, buildTelegramNotifyMessage(film))
