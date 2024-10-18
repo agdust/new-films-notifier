@@ -2,10 +2,17 @@ import { crawlCurrentFilms } from "../src/crawl.js"
 import { logger } from "../src/log.js";
 import { getLastSavedFilms, saveFilmsToFile, storage } from "../src/storage.js";
 import { buildTelegramNotifyMessage, sendMessage } from "../src/telegram.js"
+import { sendErrorNotificationToMe } from "./send-error-notification-to-me.js";
 
 logger.info("-- Start crawl-and-notify --")
 
-const currentFilms = await crawlCurrentFilms();
+let currentFilms = null;
+try {
+  currentFilms = await crawlCurrentFilms();
+} catch (error) {
+  sendErrorNotificationToMe(error)
+  throw error
+}
 
 const lastSavedFilms = getLastSavedFilms();
 
@@ -13,7 +20,6 @@ saveFilmsToFile(currentFilms);
 
 if (!lastSavedFilms) {
   logger.info("No previous film save file found")
-
   throw new Error("No previous film save file found")
 }
 
@@ -27,7 +33,6 @@ for (const filmName in currentFilms) {
 
 if (newFilms.length === 0) {
   logger.info("No new films today")
-
   throw new Error("No new films today")
 }
 
