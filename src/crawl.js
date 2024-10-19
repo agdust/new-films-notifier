@@ -1,4 +1,7 @@
 import { PlaywrightCrawler } from "crawlee";
+import dotenv from "dotenv";
+
+import { sendMessage } from "./telegram.js";
 
 const timeOfLoadWaiting = 5000; // 5 seconds
 
@@ -43,10 +46,18 @@ export async function crawlCurrentFilms() {
       const films = await Promise.all(filmLocators.map((filmLocator) => exrtactFilmInformation(filmLocator)))
 
       films.forEach((film) => { result[film.name] = film })
-    },
+    }
   });
 
-  await crawler.run(["https://zaotdih.ru/voronezh/afisha/kino/"]);
+  const stats = await crawler.run(["https://zaotdih.ru/voronezh/afisha/kino/"]);
+
+  if (stats.requestsFailed > 0) {
+    dotenv.config();
+    await sendMessage(
+      { id: process.env.MY_TELEGRAM_ID },
+      "Штото сломалось"
+    )
+  }
 
   return result;
 }

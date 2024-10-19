@@ -2,17 +2,10 @@ import { crawlCurrentFilms } from "../src/crawl.js"
 import { logger } from "../src/log.js";
 import { getLastSavedFilms, saveFilmsToFile, storage } from "../src/storage.js";
 import { buildTelegramNotifyMessage, sendMessage } from "../src/telegram.js"
-import { sendErrorNotificationToMe } from "./send-error-notification-to-me.js";
 
 logger.info("-- Start crawl-and-notify --")
 
-let currentFilms = null;
-try {
-  currentFilms = await crawlCurrentFilms();
-} catch (error) {
-  sendErrorNotificationToMe(error)
-  throw error
-}
+const currentFilms = await crawlCurrentFilms();
 
 const lastSavedFilms = getLastSavedFilms();
 

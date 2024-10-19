@@ -65,7 +65,7 @@ export async function handleAllNewUpdates() {
     }
   }
 
-  // updating is safe because of await inide loop
+  // updating is safe because of await inside loop
   //
   // eslint-disable-next-line require-atomic-updates
   storage.lastHandledTelegramUpdateId = lastHandledTelegramUpdateId;
